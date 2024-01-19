@@ -5,10 +5,10 @@
 #pragma once
 #include "afxwin.h"
 
-#include "../../Common/CEdit/ColorEdit.h"
-#include "../../Common/CEdit/DimEditCtrl.h"
-#include "../../Common/CEdit/EditTrans.h"
-#include "../../Common/CEdit/RichEditCtrlEx.h"
+#include "../../Common/CEdit/SCEdit/SCEdit.h"
+#include "../../Common/CEdit/DimEditCtrl/DimEditCtrl.h"
+#include "../../Common/CEdit/EditTrans/EditTrans.h"
+#include "../../Common/CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
 
 // CTest_CEditDlg dialog
 class CTest_CEditDlg : public CDialogEx
@@ -43,7 +43,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CEdit m_edit_cedit;
-	CColorEdit m_edit_color;
+	CSCEdit m_edit_sc;
 	CDimEditCtrl m_edit_dim;
 	CEditTrans m_edit_trans;
 	CRichEditCtrlEx m_edit_rich;

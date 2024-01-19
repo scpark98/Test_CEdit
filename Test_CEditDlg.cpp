@@ -62,7 +62,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT0, m_edit_cedit);
-	DDX_Control(pDX, IDC_EDIT1, m_edit_color);
+	DDX_Control(pDX, IDC_EDIT1, m_edit_sc);
 	DDX_Control(pDX, IDC_EDIT2, m_edit_dim);
 	DDX_Control(pDX, IDC_EDIT3, m_edit_trans);
 	DDX_Control(pDX, IDC_RICH, m_edit_rich);
@@ -125,19 +125,22 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	r.DeflateRect(0, def);
 	m_edit_color.SetRect(&r);
 	*/
-	m_edit_color.SetAutoFontSize(true, 0.5);
-	//m_edit_color.SetFontSize(11);
 
 	CString str = _T("동해물과 abcde ありがとう 雰囲気");
 	m_edit_cedit.SetWindowText(str);
-	m_edit_color.SetWindowText(str);
+	m_edit_sc.SetWindowText(str);
 	m_edit_dim.SetWindowText(str);
 	m_edit_trans.SetWindowText(str);
 	//m_edit_rich.SetWindowText(str);
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
-	m_edit_color.SetBackColor(blue).SetBackColor_Disabled(blue);
+	m_edit_sc
+		//.set_auto_font_size(true, 0.5)
+		.set_text_color(white)
+		.set_back_color(lightblue)
+		.set_text_color_disabled(red)
+		.set_back_color_disabled(violet);
 	m_edit_trans.SetBackColor(red);
 
 	RestoreWindowPosition(&theApp, this);
@@ -200,8 +203,8 @@ HCURSOR CTest_CEditDlg::OnQueryDragIcon()
 
 void CTest_CEditDlg::OnBnClickedOk()
 {
-	m_edit_color.EnableWindow(false);
-	m_edit_trans.EnableWindow(false);
+	m_edit_sc.EnableWindow(m_edit_sc.IsWindowEnabled() ? false : true);
+	m_edit_trans.EnableWindow(m_edit_trans.IsWindowEnabled() ? false : true);
 
 	for (int i = 0; i < 1; i++)
 	{
