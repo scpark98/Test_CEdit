@@ -53,4 +53,5 @@ public:
 	afx_msg void OnBnClickedRadioAlighRight();
 	afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedCancel();
 };

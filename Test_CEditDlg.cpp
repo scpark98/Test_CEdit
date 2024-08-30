@@ -78,6 +78,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO_ALIGH_RIGHT, &CTest_CEditDlg::OnBnClickedRadioAlighRight)
 	ON_WM_WINDOWPOSCHANGED()
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDCANCEL, &CTest_CEditDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -113,6 +114,25 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	LOGFONT* lf;
+	UINT lf_size = sizeof(LOGFONT);
+	BOOL b = theApp.GetProfileBinary(_T("setting"), _T("log font"), reinterpret_cast<LPBYTE*>(&lf), &lf_size);
+
+	/*
+	CRequestUrlParams params;
+	//CompanyFunction::flag_control_lock
+	params = CRequestUrlParams(_T("posbank.linkmemine.com"), 80, _T(""), _T("POST"));
+	params.sub_url.Format(_T("/agent/api/v1.0/GetLmmDeviceDuplicateCheck"));
+	params.body.Format(_T("{\"device_name\":\"%s\", \"company_fk\":\"%d\"}"), _T("KOIaNO-TESTPC"), 10);
+	params.request_id = 0;
+	params.use_thread = false;
+	request_url(&params);
+	TRACE(_T("status = %d, result = %s\n"), params.status, params.result);
+	*/
+
+
+
+
 	//edit의 height를 구하고 글꼴의 높이를 구해서
 	//텍스트가 edit의 세로 중앙에 표시되도록 rect를 조정한다.
 	//단, SetRect는 반드시 edit의 속성이 Multiline으로 되어 있어야만 적용된다.
@@ -137,10 +157,14 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	m_edit_sc
 		//.set_auto_font_size(true, 0.5)
-		.set_text_color(white)
+		.set_text_color(blue)
 		.set_back_color(lightblue)
 		.set_text_color_disabled(red)
 		.set_back_color_disabled(violet);
+
+	m_edit_sc.set_line_align(DT_VCENTER);
+
+
 	m_edit_trans.SetBackColor(red);
 
 	RestoreWindowPosition(&theApp, this);
@@ -213,7 +237,7 @@ void CTest_CEditDlg::OnBnClickedOk()
 		//m_edit_rich.append(-1, _T("\n222"));	//한칸띠고 시간+222
 		//m_edit_rich.append(-1, _T("333\n"));	//첫 컬럼이면 시간찍고 333\n, 아니면 이어서 333찍고 \n
 		//m_edit_rich.append(-1, _T("\n444\n"));	//한칸띠고 시간+444\n
-		m_edit_rich.append(blue, _T("test string\n"));
+		m_edit_rich.add(blue, _T("test string\n"));
 
 		//CString str = _T("CString variable\n");
 		//m_edit_rich.append(red, str);
@@ -254,4 +278,14 @@ void CTest_CEditDlg::OnTimer(UINT_PTR nIDEvent)
 		OnBnClickedOk();
 
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CTest_CEditDlg::OnBnClickedCancel()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LOGFONT lf;
+	BOOL b = theApp.WriteProfileBinary(_T("setting"), _T("log font"), (LPBYTE)&lf, sizeof(LOGFONT));
+
+	CDialogEx::OnCancel();
 }
