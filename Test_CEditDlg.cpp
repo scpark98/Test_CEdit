@@ -169,6 +169,11 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	RestoreWindowPosition(&theApp, this);
 
+	m_tooltip.Create(this, TTS_ALWAYSTIP);
+	m_tooltip.AddTool(GetDlgItem(IDC_EDIT0), _T("asldfk"));
+	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
+	m_tooltip.Activate(TRUE);
+
 	//SetTimer(timer_auto_add, 100, NULL);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -288,4 +293,14 @@ void CTest_CEditDlg::OnBnClickedCancel()
 	BOOL b = theApp.WriteProfileBinary(_T("setting"), _T("log font"), (LPBYTE)&lf, sizeof(LOGFONT));
 
 	CDialogEx::OnCancel();
+}
+
+
+BOOL CTest_CEditDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (m_tooltip && m_tooltip.m_hWnd)
+		m_tooltip.RelayEvent(pMsg);
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

@@ -27,6 +27,9 @@ public:
 		timer_auto_add = 0,
 	};
 
+protected:
+	CToolTipCtrl	m_tooltip;
+
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
@@ -54,4 +57,5 @@ public:
 	afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedCancel();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
