@@ -58,4 +58,6 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedCancel();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	CButton m_check_show_search_button;
+	afx_msg void OnBnClickedCheckShowSearchButton();
 };

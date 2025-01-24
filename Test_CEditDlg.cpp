@@ -66,6 +66,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_edit_dim);
 	DDX_Control(pDX, IDC_EDIT3, m_edit_trans);
 	DDX_Control(pDX, IDC_RICH, m_edit_rich);
+	DDX_Control(pDX, IDC_CHECK_SHOW_SEARCH_BUTTON, m_check_show_search_button);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -79,6 +80,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_WM_WINDOWPOSCHANGED()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDCANCEL, &CTest_CEditDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_CHECK_SHOW_SEARCH_BUTTON, &CTest_CEditDlg::OnBnClickedCheckShowSearchButton)
 END_MESSAGE_MAP()
 
 
@@ -174,6 +176,8 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
 
+	m_check_show_search_button.SetCheck(BST_CHECKED);
+	OnBnClickedCheckShowSearchButton();
 	//SetTimer(timer_auto_add, 100, NULL);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -303,4 +307,10 @@ BOOL CTest_CEditDlg::PreTranslateMessage(MSG* pMsg)
 		m_tooltip.RelayEvent(pMsg);
 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CTest_CEditDlg::OnBnClickedCheckShowSearchButton()
+{
+	m_edit_sc.set_action_button(m_check_show_search_button.GetCheck() ? CSCEdit::action_find : 0);
 }
