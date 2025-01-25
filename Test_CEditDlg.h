@@ -60,4 +60,6 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	CButton m_check_show_search_button;
 	afx_msg void OnBnClickedCheckShowSearchButton();
+	CButton m_check_enable;
+	afx_msg void OnBnClickedCheckEnable();
 };

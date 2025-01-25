@@ -67,6 +67,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT3, m_edit_trans);
 	DDX_Control(pDX, IDC_RICH, m_edit_rich);
 	DDX_Control(pDX, IDC_CHECK_SHOW_SEARCH_BUTTON, m_check_show_search_button);
+	DDX_Control(pDX, IDC_CHECK_ENABLE, m_check_enable);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -81,6 +82,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDCANCEL, &CTest_CEditDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_SEARCH_BUTTON, &CTest_CEditDlg::OnBnClickedCheckShowSearchButton)
+	ON_BN_CLICKED(IDC_CHECK_ENABLE, &CTest_CEditDlg::OnBnClickedCheckEnable)
 END_MESSAGE_MAP()
 
 
@@ -150,7 +152,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	CString str = _T("동해물과 abcde ありがとう 雰囲気");
 	m_edit_cedit.SetWindowText(str);
-	m_edit_sc.SetWindowText(str);
+	//m_edit_sc.SetWindowText(str);
 	m_edit_dim.SetWindowText(str);
 	m_edit_trans.SetWindowText(str);
 	//m_edit_rich.SetWindowText(str);
@@ -159,10 +161,11 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	m_edit_sc
 		//.set_auto_font_size(true, 0.5)
-		.set_text_color(blue)
-		.set_back_color(lightblue)
-		.set_text_color_disabled(red)
-		.set_back_color_disabled(violet);
+		//.set_text_color(Gdip)
+		//.set_back_color(lightblue)
+		//.set_text_color_disabled(red)
+		//.set_back_color_disabled(violet)
+		.set_dim_text(true, _T("Enter here..."));
 
 	m_edit_sc.set_line_align(DT_VCENTER);
 
@@ -176,8 +179,9 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
 
-	m_check_show_search_button.SetCheck(BST_CHECKED);
-	OnBnClickedCheckShowSearchButton();
+	m_check_enable.SetCheck(BST_CHECKED);
+	//m_check_show_search_button.SetCheck(BST_CHECKED);
+	//OnBnClickedCheckShowSearchButton();
 	//SetTimer(timer_auto_add, 100, NULL);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -236,8 +240,8 @@ HCURSOR CTest_CEditDlg::OnQueryDragIcon()
 
 void CTest_CEditDlg::OnBnClickedOk()
 {
-	m_edit_sc.EnableWindow(m_edit_sc.IsWindowEnabled() ? false : true);
-	m_edit_trans.EnableWindow(m_edit_trans.IsWindowEnabled() ? false : true);
+	//m_edit_sc.EnableWindow(m_edit_sc.IsWindowEnabled() ? false : true);
+	//m_edit_trans.EnableWindow(m_edit_trans.IsWindowEnabled() ? false : true);
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -313,4 +317,10 @@ BOOL CTest_CEditDlg::PreTranslateMessage(MSG* pMsg)
 void CTest_CEditDlg::OnBnClickedCheckShowSearchButton()
 {
 	m_edit_sc.set_action_button(m_check_show_search_button.GetCheck() ? CSCEdit::action_find : 0);
+}
+
+
+void CTest_CEditDlg::OnBnClickedCheckEnable()
+{
+	m_edit_sc.EnableWindow(m_check_enable.GetCheck() == BST_CHECKED ? TRUE : FALSE);
 }
