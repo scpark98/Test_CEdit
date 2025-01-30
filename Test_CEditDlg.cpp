@@ -118,10 +118,22 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	m_resize.Create(this);
+	m_resize.Add(IDC_RICH, 0, 0, 100, 100);
+	m_resize.Add(IDOK, 100, 100, 0, 0);
+	m_resize.Add(IDCANCEL, 100, 100, 0, 0);
+	//m_resize.Add(IDC_CHECK_SHOW_SEARCH_BUTTON, 100, 0, 0, 0);
+	//m_resize.Add(IDC_CHECK_ENABLE, 100, 0, 0, 0);
+	//m_resize.Add(IDC_EDIT1, 0, 0, 100, 0);
+
+
+	//GetProfileBinary()를 통해 값이 저장되는 변수는 할당되지 않은 포인터 변수로 선언해야 한다.
+	//불러올 때 메모리를 할당받고 값이 채워진다. 모두 사용한 후 반드시 delete으로 release시켜야 한다.
 	LOGFONT* lf;
 	UINT lf_size = sizeof(LOGFONT);
 	BOOL b = theApp.GetProfileBinary(_T("setting"), _T("log font"), reinterpret_cast<LPBYTE*>(&lf), &lf_size);
-
+	//...
+	delete lf;
 	/*
 	CRequestUrlParams params;
 	//CompanyFunction::flag_control_lock
@@ -153,19 +165,18 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	CString str = _T("동해물과 abcde ありがとう 雰囲気");
 	m_edit_cedit.SetWindowText(str);
 	//m_edit_sc.SetWindowText(str);
-	m_edit_dim.SetWindowText(str);
+	//m_edit_dim.SetWindowText(str);
 	m_edit_trans.SetWindowText(str);
 	//m_edit_rich.SetWindowText(str);
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
-	m_edit_sc
-		//.set_auto_font_size(true, 0.5)
-		//.set_text_color(Gdip)
-		//.set_back_color(lightblue)
-		//.set_text_color_disabled(red)
-		//.set_back_color_disabled(violet)
-		.set_dim_text(true, _T("Enter here..."));
+	m_edit_sc.set_auto_font_size(true, 0.6);
+	m_edit_sc.set_text_color(gRGB(0, 0, 255));
+	m_edit_sc.set_back_color(Gdiplus::Color::RosyBrown);
+	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
+	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 128));
+	m_edit_sc.set_dim_text(true, _T("Enter here..."));
 
 	m_edit_sc.set_line_align(DT_VCENTER);
 

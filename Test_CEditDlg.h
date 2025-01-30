@@ -9,6 +9,7 @@
 #include "../../Common/CEdit/DimEditCtrl/DimEditCtrl.h"
 #include "../../Common/CEdit/EditTrans/EditTrans.h"
 #include "../../Common/CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
+#include "../../Common/ResizeCtrl.h"
 
 // CTest_CEditDlg dialog
 class CTest_CEditDlg : public CDialogEx
@@ -28,6 +29,7 @@ public:
 	};
 
 protected:
+	CResizeCtrl		m_resize;
 	CToolTipCtrl	m_tooltip;
 
 	protected:
