@@ -83,6 +83,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CTest_CEditDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_SEARCH_BUTTON, &CTest_CEditDlg::OnBnClickedCheckShowSearchButton)
 	ON_BN_CLICKED(IDC_CHECK_ENABLE, &CTest_CEditDlg::OnBnClickedCheckEnable)
+	ON_EN_CHANGE(IDC_EDIT1, &CTest_CEditDlg::OnEnChangeSCEdit)
 END_MESSAGE_MAP()
 
 
@@ -194,6 +195,10 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	//m_check_show_search_button.SetCheck(BST_CHECKED);
 	//OnBnClickedCheckShowSearchButton();
 	//SetTimer(timer_auto_add, 100, NULL);
+
+	str = _T("\r \n \t \\ &");
+	CString res = get_unescape_string(str);
+	TRACE(_T("res = %s\n"), res);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -334,4 +339,12 @@ void CTest_CEditDlg::OnBnClickedCheckShowSearchButton()
 void CTest_CEditDlg::OnBnClickedCheckEnable()
 {
 	m_edit_sc.EnableWindow(m_check_enable.GetCheck() == BST_CHECKED ? TRUE : FALSE);
+}
+
+
+void CTest_CEditDlg::OnEnChangeSCEdit()
+{
+	CString text;
+	m_edit_sc.GetWindowText(text);
+	TRACE(_T("CTest_CEditDlg::OnEnChangeSCEdit(). text = %s\n"), text);
 }

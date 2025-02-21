@@ -64,4 +64,5 @@ public:
 	afx_msg void OnBnClickedCheckShowSearchButton();
 	CButton m_check_enable;
 	afx_msg void OnBnClickedCheckEnable();
+	afx_msg void OnEnChangeSCEdit();
 };
