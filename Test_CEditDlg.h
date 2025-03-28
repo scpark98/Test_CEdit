@@ -65,4 +65,5 @@ public:
 	CButton m_check_enable;
 	afx_msg void OnBnClickedCheckEnable();
 	afx_msg void OnEnChangeSCEdit();
+	CSCEdit m_edit1;
 };

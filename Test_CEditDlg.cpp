@@ -68,6 +68,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RICH, m_edit_rich);
 	DDX_Control(pDX, IDC_CHECK_SHOW_SEARCH_BUTTON, m_check_show_search_button);
 	DDX_Control(pDX, IDC_CHECK_ENABLE, m_check_enable);
+	DDX_Control(pDX, IDC_EDIT6, m_edit1);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -172,7 +173,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
-	m_edit_sc.set_auto_font_size(true, 0.6);
+	//m_edit_sc.set_auto_font_size(true, 0.6);
 	m_edit_sc.set_text_color(gRGB(0, 0, 255));
 	m_edit_sc.set_back_color(Gdiplus::Color::RosyBrown);
 	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
@@ -180,6 +181,9 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_dim_text(true, _T("Enter here..."));
 
 	m_edit_sc.set_line_align(DT_VCENTER);
+
+	m_edit1.set_back_color(Gdiplus::Color::RosyBrown);
+	m_edit1.set_line_align(DT_VCENTER);
 
 
 	m_edit_trans.SetBackColor(red);
