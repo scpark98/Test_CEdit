@@ -180,8 +180,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 128));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
 	m_edit_sc.set_draw_border(true, 3);
-
-	m_edit_sc.set_line_align(DT_VCENTER);
+	m_edit_sc.set_text(_T("read only text..."));
 
 	m_edit1.set_back_color(Gdiplus::Color::RosyBrown);
 	m_edit1.set_line_align(DT_VCENTER);
