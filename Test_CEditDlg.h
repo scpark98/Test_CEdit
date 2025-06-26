@@ -65,5 +65,17 @@ public:
 	CButton m_check_enable;
 	afx_msg void OnBnClickedCheckEnable();
 	afx_msg void OnEnChangeSCEdit();
-	CSCEdit m_edit1;
+	CSCEdit m_edit6;
+	CSCEdit m_edit7;
+	CSCEdit m_edit8;
+	CButton m_check_border;
+	CEdit m_edit_border_width;
+	CSpinButtonCtrl m_spin_border_width;
+	CMFCColorButton m_button_border_color;
+	afx_msg void OnBnClickedCheckBorder();
+	afx_msg void OnBnClickedButtonBorderColor();
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnBnClickedRadioTop();
+	afx_msg void OnBnClickedRadioVcenter();
+	afx_msg void OnBnClickedRadioBottom();
 };

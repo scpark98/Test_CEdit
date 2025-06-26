@@ -68,7 +68,13 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RICH, m_edit_rich);
 	DDX_Control(pDX, IDC_CHECK_SHOW_SEARCH_BUTTON, m_check_show_search_button);
 	DDX_Control(pDX, IDC_CHECK_ENABLE, m_check_enable);
-	DDX_Control(pDX, IDC_EDIT6, m_edit1);
+	DDX_Control(pDX, IDC_EDIT6, m_edit6);
+	DDX_Control(pDX, IDC_EDIT7, m_edit7);
+	DDX_Control(pDX, IDC_EDIT8, m_edit8);
+	DDX_Control(pDX, IDC_CHECK_BORDER, m_check_border);
+	DDX_Control(pDX, IDC_EDIT_BORDER_WIDTH, m_edit_border_width);
+	DDX_Control(pDX, IDC_SPIN_BORDER_WIDTH, m_spin_border_width);
+	DDX_Control(pDX, IDC_BUTTON_BORDER_COLOR, m_button_border_color);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -85,6 +91,12 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_SEARCH_BUTTON, &CTest_CEditDlg::OnBnClickedCheckShowSearchButton)
 	ON_BN_CLICKED(IDC_CHECK_ENABLE, &CTest_CEditDlg::OnBnClickedCheckEnable)
 	ON_EN_CHANGE(IDC_EDIT1, &CTest_CEditDlg::OnEnChangeSCEdit)
+	ON_BN_CLICKED(IDC_CHECK_BORDER, &CTest_CEditDlg::OnBnClickedCheckBorder)
+	ON_BN_CLICKED(IDC_BUTTON_BORDER_COLOR, &CTest_CEditDlg::OnBnClickedButtonBorderColor)
+	ON_WM_VSCROLL()
+	ON_BN_CLICKED(IDC_RADIO_TOP, &CTest_CEditDlg::OnBnClickedRadioTop)
+	ON_BN_CLICKED(IDC_RADIO_VCENTER, &CTest_CEditDlg::OnBnClickedRadioVcenter)
+	ON_BN_CLICKED(IDC_RADIO_BOTTOM, &CTest_CEditDlg::OnBnClickedRadioBottom)
 END_MESSAGE_MAP()
 
 
@@ -124,6 +136,9 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_resize.Add(IDC_RICH, 0, 0, 100, 100);
 	m_resize.Add(IDOK, 100, 100, 0, 0);
 	m_resize.Add(IDCANCEL, 100, 100, 0, 0);
+	m_resize.Add(IDC_EDIT6, 0, 0, 100, 0);
+	m_resize.Add(IDC_EDIT7, 100, 0, 0, 0);
+	m_resize.Add(IDC_EDIT8, 0, 0, 100, 0);
 	//m_resize.Add(IDC_CHECK_SHOW_SEARCH_BUTTON, 100, 0, 0, 0);
 	//m_resize.Add(IDC_CHECK_ENABLE, 100, 0, 0, 0);
 	//m_resize.Add(IDC_EDIT1, 0, 0, 100, 0);
@@ -173,17 +188,41 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
-	//m_edit_sc.set_auto_font_size(true, 0.6);
+	m_edit_sc.set_text(_T("Aaghq 한글123"));
+	//m_edit_sc.set_auto_font_size(true, 0.65);
 	m_edit_sc.set_text_color(gRGB(0, 0, 255));
 	m_edit_sc.set_back_color(Gdiplus::Color::RosyBrown);
 	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
-	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 128));
+	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
-	m_edit_sc.set_draw_border(true, 3);
-	m_edit_sc.set_text(_T("read only text..."));
+	//m_edit_sc.set_draw_border(true, 3, Gdiplus::Color::Blue, CSCEdit::border_type_sunken);
+	//m_edit_sc.set_text(_T("read only text..."));
+	//m_edit_sc.set_line_align(DT_VCENTER);
 
-	m_edit1.set_back_color(Gdiplus::Color::RosyBrown);
-	m_edit1.set_line_align(DT_VCENTER);
+	m_check_enable.SetCheck(m_edit_sc.IsWindowEnabled() ? BST_CHECKED : BST_UNCHECKED);
+
+	m_spin_border_width.SetRange(0, 15);
+	bool draw_border = theApp.GetProfileInt(_T("setting"), _T("draw border"), m_edit_sc.get_draw_border());
+	int border_width = theApp.GetProfileInt(_T("setting"), _T("border width"), m_edit_sc.get_border_width());
+	Gdiplus::Color cr_border(theApp.GetProfileInt(_T("setting"), _T("border color"), m_edit_sc.get_border_color().GetValue()));
+	m_edit_sc.set_draw_border(draw_border, border_width, cr_border);
+	m_check_border.SetCheck(draw_border);
+	m_edit_border_width.SetWindowText(i2S(border_width));
+	m_spin_border_width.SetPos(border_width);
+	m_button_border_color.SetColor(cr_border.ToCOLORREF());
+
+	int valign = theApp.GetProfileInt(_T("setting"), _T("valign"), m_edit_sc.get_line_align());
+	CheckDlgButton(IDC_RADIO_TOP, valign == DT_TOP);
+	CheckDlgButton(IDC_RADIO_VCENTER, valign == DT_VCENTER);
+	CheckDlgButton(IDC_RADIO_BOTTOM, valign == DT_BOTTOM);
+	m_edit_sc.set_line_align(valign);
+
+	m_edit6.set_text(_T("6test text"));
+	m_edit7.set_text(_T("7test text"));
+	m_edit8.set_text(_T("8test text"));
+	//m_edit1.set_back_color(Gdiplus::Color::RosyBrown);
+	//m_edit1.set_line_align(DT_VCENTER);
+
 
 
 	m_edit_trans.SetBackColor(red);
@@ -194,15 +233,6 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDC_EDIT0), _T("asldfk"));
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
-
-	m_check_enable.SetCheck(BST_CHECKED);
-	//m_check_show_search_button.SetCheck(BST_CHECKED);
-	//OnBnClickedCheckShowSearchButton();
-	//SetTimer(timer_auto_add, 100, NULL);
-
-	str = _T("\r \n \t \\ &");
-	CString res = get_unescape_string(str);
-	TRACE(_T("res = %s\n"), res);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -320,6 +350,8 @@ void CTest_CEditDlg::OnBnClickedCancel()
 	LOGFONT lf;
 	BOOL b = theApp.WriteProfileBinary(_T("setting"), _T("log font"), (LPBYTE)&lf, sizeof(LOGFONT));
 
+	theApp.WriteProfileInt(_T("setting"), _T("draw border"), m_edit_sc.get_draw_border());
+
 	CDialogEx::OnCancel();
 }
 
@@ -343,6 +375,7 @@ void CTest_CEditDlg::OnBnClickedCheckShowSearchButton()
 void CTest_CEditDlg::OnBnClickedCheckEnable()
 {
 	m_edit_sc.EnableWindow(m_check_enable.GetCheck() == BST_CHECKED ? TRUE : FALSE);
+	m_edit6.EnableWindow(m_check_enable.GetCheck() == BST_CHECKED ? TRUE : FALSE);
 }
 
 
@@ -351,4 +384,60 @@ void CTest_CEditDlg::OnEnChangeSCEdit()
 	CString text;
 	m_edit_sc.GetWindowText(text);
 	TRACE(_T("CTest_CEditDlg::OnEnChangeSCEdit(). text = %s\n"), text);
+}
+
+void CTest_CEditDlg::OnBnClickedCheckBorder()
+{
+	bool draw_border = (m_check_border.GetCheck() == BST_CHECKED);
+	m_edit_sc.set_draw_border(draw_border);
+}
+
+void CTest_CEditDlg::OnBnClickedButtonBorderColor()
+{
+	COLORREF color = m_button_border_color.GetColor();
+	Gdiplus::Color cr;
+
+	cr.SetFromCOLORREF(color);
+	theApp.WriteProfileInt(_T("setting"), _T("border color"), cr.GetValue());
+
+	m_edit_sc.set_draw_border(true, -1, cr);
+	m_check_border.SetCheck(BST_CHECKED);
+}
+
+void CTest_CEditDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (pScrollBar == (CWnd*)&m_spin_border_width)
+	{
+		int pos = m_spin_border_width.GetPos();
+		bool draw_border = (pos > 0);
+		m_check_border.SetCheck(draw_border);
+		m_edit_sc.set_draw_border(draw_border, pos);
+
+		theApp.WriteProfileInt(_T("setting"), _T("draw border"), draw_border);
+		theApp.WriteProfileInt(_T("setting"), _T("border width"), pos);
+	}
+
+	CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CTest_CEditDlg::OnBnClickedRadioTop()
+{
+	m_edit_sc.set_line_align(DT_TOP);
+	m_edit6.set_line_align(DT_TOP);
+	theApp.WriteProfileInt(_T("setting"), _T("valign"), DT_TOP);
+}
+
+void CTest_CEditDlg::OnBnClickedRadioVcenter()
+{
+	m_edit_sc.set_line_align(DT_VCENTER);
+	m_edit6.set_line_align(DT_VCENTER);
+	theApp.WriteProfileInt(_T("setting"), _T("valign"), DT_VCENTER);
+}
+
+void CTest_CEditDlg::OnBnClickedRadioBottom()
+{
+	m_edit_sc.set_line_align(DT_BOTTOM);
+	m_edit6.set_line_align(DT_BOTTOM);
+	theApp.WriteProfileInt(_T("setting"), _T("valign"), DT_BOTTOM);
 }
