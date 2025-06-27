@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "afxwin.h"
+#include <afxwin.h>
 
 #include "CEdit/SCEdit/SCEdit.h"
 #include "CEdit/DimEditCtrl/DimEditCtrl.h"
