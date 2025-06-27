@@ -223,8 +223,6 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	//m_edit1.set_back_color(Gdiplus::Color::RosyBrown);
 	//m_edit1.set_line_align(DT_VCENTER);
 
-
-
 	m_edit_trans.SetBackColor(red);
 
 	RestoreWindowPosition(&theApp, this);

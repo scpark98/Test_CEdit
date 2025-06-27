@@ -5,11 +5,11 @@
 #pragma once
 #include "afxwin.h"
 
-#include "../../Common/CEdit/SCEdit/SCEdit.h"
-#include "../../Common/CEdit/DimEditCtrl/DimEditCtrl.h"
-#include "../../Common/CEdit/EditTrans/EditTrans.h"
-#include "../../Common/CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
-#include "../../Common/ResizeCtrl.h"
+#include "CEdit/SCEdit/SCEdit.h"
+#include "CEdit/DimEditCtrl/DimEditCtrl.h"
+#include "CEdit/EditTrans/EditTrans.h"
+#include "CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
+#include "ResizeCtrl.h"
 
 // CTest_CEditDlg dialog
 class CTest_CEditDlg : public CDialogEx
