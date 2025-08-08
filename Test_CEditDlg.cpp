@@ -144,7 +144,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	//m_resize.Add(IDC_EDIT1, 0, 0, 100, 0);
 
 
-	//GetProfileBinary()를 통해 값이 저장되는 변수는 할당되지 않은 포인터 변수로 선언해야 한다.
+	//GetProfileBinary()를 통해 값이 저장되는 변수는 정적변수가 아닌 포인터 변수로 선언해야 한다.
 	//불러올 때 메모리를 할당받고 값이 채워진다. 모두 사용한 후 반드시 delete으로 release시켜야 한다.
 	LOGFONT* lf;
 	UINT lf_size = sizeof(LOGFONT);
