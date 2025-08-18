@@ -191,7 +191,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_text(_T("Aaghq 한글123"));
 	//m_edit_sc.set_auto_font_size(true, 0.65);
 	m_edit_sc.set_text_color(gRGB(0, 0, 255));
-	m_edit_sc.set_back_color(Gdiplus::Color::RosyBrown);
+	m_edit_sc.set_back_color(Gdiplus::Color::RoyalBlue);
 	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
