@@ -10,6 +10,7 @@
 #include "Common/CEdit/EditTrans/EditTrans.h"
 #include "Common/CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
 #include "Common/ResizeCtrl.h"
+//#include "Common/CComboBox/FontComboBox/FontComboBox.h"
 
 // CTest_CEditDlg dialog
 class CTest_CEditDlg : public CDialogEx
@@ -78,4 +79,9 @@ public:
 	afx_msg void OnBnClickedRadioTop();
 	afx_msg void OnBnClickedRadioVcenter();
 	afx_msg void OnBnClickedRadioBottom();
+	//CFontComboBox m_combo_font;
+	afx_msg void OnCbnSelchangeMfcFontCombo();
+	CMFCFontComboBox m_combo_font;
+	CEdit m_edit_font_size;
+	CSpinButtonCtrl m_spin_font_size;
 };

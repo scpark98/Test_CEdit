@@ -75,6 +75,10 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_BORDER_WIDTH, m_edit_border_width);
 	DDX_Control(pDX, IDC_SPIN_BORDER_WIDTH, m_spin_border_width);
 	DDX_Control(pDX, IDC_BUTTON_BORDER_COLOR, m_button_border_color);
+	//DDX_Control(pDX, IDC_COMBO_FONT, m_combo_font);
+	DDX_Control(pDX, IDC_MFCFONTCOMBO, m_combo_font);
+	DDX_Control(pDX, IDC_EDIT_FONT_SIZE, m_edit_font_size);
+	DDX_Control(pDX, IDC_SPIN_FONT_SIZE, m_spin_font_size);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -97,6 +101,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO_TOP, &CTest_CEditDlg::OnBnClickedRadioTop)
 	ON_BN_CLICKED(IDC_RADIO_VCENTER, &CTest_CEditDlg::OnBnClickedRadioVcenter)
 	ON_BN_CLICKED(IDC_RADIO_BOTTOM, &CTest_CEditDlg::OnBnClickedRadioBottom)
+	ON_CBN_SELCHANGE(IDC_MFCFONTCOMBO, &CTest_CEditDlg::OnCbnSelchangeMfcFontCombo)
 END_MESSAGE_MAP()
 
 
@@ -139,10 +144,14 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_resize.Add(IDC_EDIT6, 0, 0, 100, 0);
 	m_resize.Add(IDC_EDIT7, 100, 0, 0, 0);
 	m_resize.Add(IDC_EDIT8, 0, 0, 100, 0);
+	m_resize.Add(IDC_RADIO_ALIGN_LEFT, 0, 100, 0, 0);
+	m_resize.Add(IDC_RADIO_ALIGN_CENTER, 0, 100, 0, 0);
+	m_resize.Add(IDC_RADIO_ALIGN_RIGHT, 0, 100, 0, 0);
 	//m_resize.Add(IDC_CHECK_SHOW_SEARCH_BUTTON, 100, 0, 0, 0);
 	//m_resize.Add(IDC_CHECK_ENABLE, 100, 0, 0, 0);
 	//m_resize.Add(IDC_EDIT1, 0, 0, 100, 0);
 
+	//m_combo_font.Init();
 
 	//GetProfileBinary()를 통해 값이 저장되는 변수는 정적변수가 아닌 포인터 변수로 선언해야 한다.
 	//불러올 때 메모리를 할당받고 값이 채워진다. 모두 사용한 후 반드시 delete으로 release시켜야 한다.
@@ -188,6 +197,15 @@ BOOL CTest_CEditDlg::OnInitDialog()
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
+	CString font_name = AfxGetApp()->GetProfileString(_T("setting"), _T("font name"), _T("맑은 고딕"));
+	m_combo_font.SelectFont(font_name);
+	m_edit_sc.set_font_name(font_name);
+
+	m_spin_font_size.SetRange(1, 50);
+	int font_size = AfxGetApp()->GetProfileInt(_T("setting"), _T("font size"), 10);
+	m_edit_sc.set_font_size(font_size);
+	m_spin_font_size.SetPos(font_size);
+
 	m_edit_sc.set_text(_T("Aaghq 한글123"));
 	//m_edit_sc.set_auto_font_size(true, 0.65);
 	m_edit_sc.set_text_color(gRGB(0, 0, 255));
@@ -195,9 +213,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
-	//m_edit_sc.set_draw_border(true, 3, Gdiplus::Color::Blue, CSCEdit::border_type_sunken);
-	//m_edit_sc.set_text(_T("read only text..."));
-	//m_edit_sc.set_line_align(DT_VCENTER);
+
 
 	m_check_enable.SetCheck(m_edit_sc.IsWindowEnabled() ? BST_CHECKED : BST_UNCHECKED);
 
@@ -415,6 +431,13 @@ void CTest_CEditDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 		theApp.WriteProfileInt(_T("setting"), _T("draw border"), draw_border);
 		theApp.WriteProfileInt(_T("setting"), _T("border width"), pos);
 	}
+	else if (pScrollBar == (CWnd*)&m_spin_font_size)
+	{
+		int pos = m_spin_font_size.GetPos();
+		m_edit_sc.set_font_size(pos);
+
+		theApp.WriteProfileInt(_T("setting"), _T("font size"), pos);
+	}
 
 	CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
 }
@@ -439,3 +462,15 @@ void CTest_CEditDlg::OnBnClickedRadioBottom()
 	m_edit6.set_line_align(DT_BOTTOM);
 	theApp.WriteProfileInt(_T("setting"), _T("valign"), DT_BOTTOM);
 }
+
+void CTest_CEditDlg::OnCbnSelchangeMfcFontCombo()
+{
+	CMFCFontInfo *fi = m_combo_font.GetSelFont();
+
+	if (!fi)
+		return;
+
+	m_edit_sc.set_font_name(fi->m_strName);
+	AfxGetApp()->WriteProfileString(_T("setting"), _T("font name"), fi->m_strName);
+}
+
