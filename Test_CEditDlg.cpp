@@ -80,6 +80,9 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_FONT_SIZE, m_edit_font_size);
 	DDX_Control(pDX, IDC_SPIN_FONT_SIZE, m_spin_font_size);
 	DDX_Control(pDX, IDC_CHECK_READONLY, m_check_readonly);
+	DDX_Control(pDX, IDC_BUTTON_TEXT_COLOR, m_button_text_color);
+	DDX_Control(pDX, IDC_BUTTON_BACK_COLOR, m_button_back_color);
+	DDX_Control(pDX, IDC_CHECK_USE_READONLY_COLOR, m_check_use_readonly_color);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -104,6 +107,9 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO_BOTTOM, &CTest_CEditDlg::OnBnClickedRadioBottom)
 	ON_CBN_SELCHANGE(IDC_MFCFONTCOMBO, &CTest_CEditDlg::OnCbnSelchangeMfcFontCombo)
 	ON_BN_CLICKED(IDC_CHECK_READONLY, &CTest_CEditDlg::OnBnClickedCheckReadOnly)
+	ON_BN_CLICKED(IDC_BUTTON_TEXT_COLOR, &CTest_CEditDlg::OnBnClickedButtonTextColor)
+	ON_BN_CLICKED(IDC_BUTTON_BACK_COLOR, &CTest_CEditDlg::OnBnClickedButtonBackColor)
+	ON_BN_CLICKED(IDC_CHECK_USE_READONLY_COLOR, &CTest_CEditDlg::OnBnClickedCheckUseReadOnlyColor)
 END_MESSAGE_MAP()
 
 
@@ -208,13 +214,19 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_font_size(font_size);
 	m_spin_font_size.SetPos(font_size);
 
+	Gdiplus::Color cr_text(theApp.GetProfileInt(_T("setting"), _T("text color"), m_edit_sc.get_text_color().GetValue()));
+	m_button_text_color.SetColor(cr_text.ToCOLORREF());
+	Gdiplus::Color cr_back(theApp.GetProfileInt(_T("setting"), _T("back color"), m_edit_sc.get_back_color().GetValue()));
+	m_button_back_color.SetColor(cr_back.ToCOLORREF());
+
 	m_edit_sc.set_text(_T("Aaghq 한글123"));
 	//m_edit_sc.set_auto_font_size(true, 0.65);
-	m_edit_sc.set_text_color(gRGB(0, 0, 255));
-	m_edit_sc.set_back_color(Gdiplus::Color::RoyalBlue);
+	m_edit_sc.set_text_color(cr_text);
+	m_edit_sc.set_back_color(cr_back);
 	m_edit_sc.set_text_color_disabled(gRGB(128, 0, 0));
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
+	m_edit_sc.set_use_readonly_color(false);
 
 
 	m_check_enable.SetCheck(m_edit_sc.IsWindowEnabled() ? BST_CHECKED : BST_UNCHECKED);
@@ -228,6 +240,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_border_width.SetWindowText(i2S(border_width));
 	m_spin_border_width.SetPos(border_width);
 	m_button_border_color.SetColor(cr_border.ToCOLORREF());
+
 
 	int valign = theApp.GetProfileInt(_T("setting"), _T("valign"), m_edit_sc.get_line_align());
 	CheckDlgButton(IDC_RADIO_TOP, valign == DT_TOP);
@@ -485,6 +498,34 @@ void CTest_CEditDlg::OnCbnSelchangeMfcFontCombo()
 
 void CTest_CEditDlg::OnBnClickedCheckReadOnly()
 {
-	m_edit_sc.set_read_only(m_check_readonly.GetCheck() == BST_CHECKED);
-	m_edit6.set_read_only(m_check_readonly.GetCheck() == BST_CHECKED);
+	m_edit_sc.SetReadOnly(m_check_readonly.GetCheck() == BST_CHECKED);
+	m_edit6.SetReadOnly(m_check_readonly.GetCheck() == BST_CHECKED);
+}
+
+void CTest_CEditDlg::OnBnClickedButtonTextColor()
+{
+	COLORREF color = m_button_text_color.GetColor();
+	Gdiplus::Color cr;
+
+	cr.SetFromCOLORREF(color);
+	theApp.WriteProfileInt(_T("setting"), _T("text color"), cr.GetValue());
+
+	m_edit_sc.set_text_color(cr);
+}
+
+void CTest_CEditDlg::OnBnClickedButtonBackColor()
+{
+	COLORREF color = m_button_back_color.GetColor();
+	Gdiplus::Color cr;
+
+	cr.SetFromCOLORREF(color);
+	theApp.WriteProfileInt(_T("setting"), _T("back color"), cr.GetValue());
+
+	m_edit_sc.set_back_color(cr);
+}
+
+void CTest_CEditDlg::OnBnClickedCheckUseReadOnlyColor()
+{
+	m_edit_sc.set_use_readonly_color(m_check_use_readonly_color.GetCheck() == BST_CHECKED);
+	m_edit6.set_use_readonly_color(m_check_use_readonly_color.GetCheck() == BST_CHECKED);
 }

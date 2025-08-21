@@ -86,4 +86,10 @@ public:
 	CSpinButtonCtrl m_spin_font_size;
 	CButton m_check_readonly;
 	afx_msg void OnBnClickedCheckReadOnly();
+	afx_msg void OnBnClickedButtonTextColor();
+	afx_msg void OnBnClickedButtonBackColor();
+	CMFCColorButton m_button_text_color;
+	CMFCColorButton m_button_back_color;
+	CButton m_check_use_readonly_color;
+	afx_msg void OnBnClickedCheckUseReadOnlyColor();
 };
