@@ -79,6 +79,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MFCFONTCOMBO, m_combo_font);
 	DDX_Control(pDX, IDC_EDIT_FONT_SIZE, m_edit_font_size);
 	DDX_Control(pDX, IDC_SPIN_FONT_SIZE, m_spin_font_size);
+	DDX_Control(pDX, IDC_CHECK_READONLY, m_check_readonly);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -102,6 +103,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO_VCENTER, &CTest_CEditDlg::OnBnClickedRadioVcenter)
 	ON_BN_CLICKED(IDC_RADIO_BOTTOM, &CTest_CEditDlg::OnBnClickedRadioBottom)
 	ON_CBN_SELCHANGE(IDC_MFCFONTCOMBO, &CTest_CEditDlg::OnCbnSelchangeMfcFontCombo)
+	ON_BN_CLICKED(IDC_CHECK_READONLY, &CTest_CEditDlg::OnBnClickedCheckReadOnly)
 END_MESSAGE_MAP()
 
 
@@ -304,8 +306,14 @@ HCURSOR CTest_CEditDlg::OnQueryDragIcon()
 
 void CTest_CEditDlg::OnBnClickedOk()
 {
+	//readonly일 때 배경색을 별도로 지정하는 테스트 코드
+	m_edit_sc.set_back_color_readonly(gRGB(255, 255, 0));
+	m_edit6.set_back_color_readonly(gRGB(255, 255, 0));
+
 	//m_edit_sc.EnableWindow(m_edit_sc.IsWindowEnabled() ? false : true);
 	//m_edit_trans.EnableWindow(m_edit_trans.IsWindowEnabled() ? false : true);
+
+	return;
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -474,3 +482,9 @@ void CTest_CEditDlg::OnCbnSelchangeMfcFontCombo()
 	AfxGetApp()->WriteProfileString(_T("setting"), _T("font name"), fi->m_strName);
 }
 
+
+void CTest_CEditDlg::OnBnClickedCheckReadOnly()
+{
+	m_edit_sc.set_read_only(m_check_readonly.GetCheck() == BST_CHECKED);
+	m_edit6.set_read_only(m_check_readonly.GetCheck() == BST_CHECKED);
+}

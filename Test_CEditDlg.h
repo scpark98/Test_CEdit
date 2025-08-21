@@ -84,4 +84,6 @@ public:
 	CMFCFontComboBox m_combo_font;
 	CEdit m_edit_font_size;
 	CSpinButtonCtrl m_spin_font_size;
+	CButton m_check_readonly;
+	afx_msg void OnBnClickedCheckReadOnly();
 };
