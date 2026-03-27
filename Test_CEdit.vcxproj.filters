@@ -66,9 +66,6 @@
     <ClInclude Include="..\..\Common\CComboBox\FontComboBox\FontComboBox.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="SCMaskedEdit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\SCGdiplusBitmap.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -112,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\CComboBox\FontComboBox\FontComboBox.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="SCMaskedEdit.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\SCGdiplusBitmap.cpp">
       <Filter>Common</Filter>

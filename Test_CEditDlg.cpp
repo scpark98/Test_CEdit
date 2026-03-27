@@ -155,6 +155,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_resize.Add(IDC_RADIO_ALIGN_LEFT, 0, 100, 0, 0);
 	m_resize.Add(IDC_RADIO_ALIGN_CENTER, 0, 100, 0, 0);
 	m_resize.Add(IDC_RADIO_ALIGN_RIGHT, 0, 100, 0, 0);
+	m_resize.Add(IDC_STATIC_ALIGN_GUIDE, 0, 100, 0, 0);
 	//m_resize.Add(IDC_CHECK_SHOW_SEARCH_BUTTON, 100, 0, 0, 0);
 	//m_resize.Add(IDC_CHECK_ENABLE, 100, 0, 0, 0);
 	//m_resize.Add(IDC_EDIT1, 0, 0, 100, 0);
@@ -219,7 +220,6 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	Gdiplus::Color cr_back(theApp.GetProfileInt(_T("setting"), _T("back color"), m_edit_sc.get_back_color().GetValue()));
 	m_button_back_color.SetColor(cr_back.ToCOLORREF());
 
-	m_edit_sc.set_text(_T("Aaghq 한글123"));
 	//m_edit_sc.set_auto_font_size(true, 0.65);
 	m_edit_sc.set_text_color(cr_text);
 	m_edit_sc.set_back_color(cr_back);
@@ -227,6 +227,12 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
 	m_edit_sc.set_use_readonly_color(false);
+	//mask기능을 사용하고 맨 앞에 #을 넣고자 한다면 mask에도 맨 앞에 #기호에 대한 자리인 공백 1개가 필요하고
+	//set_text()로 텍스트를 넣을 때도 맨 앞에 #을 넣어서 넣어야 한다. 그래야 #이 텍스트의 일부로 인식되어 제대로 표시된다.
+	//추후 EnableMask()를 override하여 mask를 기억시키고 입력된 text를 mask에 맞게 자동으로 변환하여 표시하도록 수정할 수 있다.
+	//https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cmfcmaskededit-class?view=msvc-170
+	m_edit_sc.EnableMask(_T(" AA AA AA AA"), _T("#__ __ __ __"), ' ', _T("0123456789ABCDEFabcdef"));
+	m_edit_sc.set_text(_T("#FF 12 34 56"));
 
 
 	m_check_enable.SetCheck(m_edit_sc.IsWindowEnabled() ? BST_CHECKED : BST_UNCHECKED);
@@ -259,6 +265,8 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	RestoreWindowPosition(&theApp, this);
 
 	m_tooltip.Create(this, TTS_ALWAYSTIP);
+	m_tooltip.AddTool(&m_check_enable, _T("CSCEdit::set_text_color_disabled(), CSCEdit::set_back_color_disabled() 함수를 이용하여 disable 상태의 text와 back 색상 지정 가능"));
+	m_tooltip.AddTool(&m_button_border_color, _T("border color"));
 	m_tooltip.AddTool(GetDlgItem(IDC_EDIT0), _T("asldfk"));
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
