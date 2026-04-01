@@ -231,8 +231,9 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	//set_text()로 텍스트를 넣을 때도 맨 앞에 #을 넣어서 넣어야 한다. 그래야 #이 텍스트의 일부로 인식되어 제대로 표시된다.
 	//추후 EnableMask()를 override하여 mask를 기억시키고 입력된 text를 mask에 맞게 자동으로 변환하여 표시하도록 수정할 수 있다.
 	//https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cmfcmaskededit-class?view=msvc-170
-	m_edit_sc.EnableMask(_T(" AA AA AA AA"), _T("#__ __ __ __"), ' ', _T("0123456789ABCDEFabcdef"));
-	m_edit_sc.set_text(_T("#FF 12 34 56"));
+	//m_edit_sc.EnableMask(_T(" AA AA AA AA"), _T("#__ __ __ __"), ' ', _T("0123456789ABCDEFabcdef"));
+	//m_edit_sc.set_text(_T("#FF 12 34 56"));
+	//m_edit_sc.set_round(10, Gdiplus::Color::Red, Gdiplus::Color::Blue);
 
 
 	m_check_enable.SetCheck(m_edit_sc.IsWindowEnabled() ? BST_CHECKED : BST_UNCHECKED);
