@@ -110,6 +110,8 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_TEXT_COLOR, &CTest_CEditDlg::OnBnClickedButtonTextColor)
 	ON_BN_CLICKED(IDC_BUTTON_BACK_COLOR, &CTest_CEditDlg::OnBnClickedButtonBackColor)
 	ON_BN_CLICKED(IDC_CHECK_USE_READONLY_COLOR, &CTest_CEditDlg::OnBnClickedCheckUseReadOnlyColor)
+	ON_EN_UPDATE(IDC_EDIT1, &CTest_CEditDlg::OnEnUpdateEdit)
+	ON_EN_CHANGE(IDC_EDIT0, &CTest_CEditDlg::OnEnChangeEdit0)
 END_MESSAGE_MAP()
 
 
@@ -227,12 +229,13 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_edit_sc.set_back_color_disabled(gRGB(128, 128, 255));
 	m_edit_sc.set_dim_text(_T("Enter here..."));
 	m_edit_sc.set_use_readonly_color(false);
+	//m_edit_sc.set_border_color_on_focus(gRGB(0, 0, 255));
 	//mask기능을 사용하고 맨 앞에 #을 넣고자 한다면 mask에도 맨 앞에 #기호에 대한 자리인 공백 1개가 필요하고
 	//set_text()로 텍스트를 넣을 때도 맨 앞에 #을 넣어서 넣어야 한다. 그래야 #이 텍스트의 일부로 인식되어 제대로 표시된다.
 	//추후 EnableMask()를 override하여 mask를 기억시키고 입력된 text를 mask에 맞게 자동으로 변환하여 표시하도록 수정할 수 있다.
 	//https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cmfcmaskededit-class?view=msvc-170
-	//m_edit_sc.EnableMask(_T(" AA AA AA AA"), _T("#__ __ __ __"), ' ', _T("0123456789ABCDEFabcdef"));
-	//m_edit_sc.set_text(_T("#FF 12 34 56"));
+	m_edit_sc.EnableMask(_T(" AA AA AA AA"), _T("#__ __ __ __"), ' ', _T("0123456789ABCDEFabcdef"));
+	m_edit_sc.set_text(_T("#FF 12 34 56"));
 	//m_edit_sc.set_round(10, Gdiplus::Color::Red, Gdiplus::Color::Blue);
 
 
@@ -537,4 +540,18 @@ void CTest_CEditDlg::OnBnClickedCheckUseReadOnlyColor()
 {
 	m_edit_sc.set_use_readonly_color(m_check_use_readonly_color.GetCheck() == BST_CHECKED);
 	m_edit6.set_use_readonly_color(m_check_use_readonly_color.GetCheck() == BST_CHECKED);
+}
+
+void CTest_CEditDlg::OnEnUpdateEdit()
+{
+	CString text;
+	m_edit_sc.GetWindowText(text);
+	TRACE(_T("CTest_CEditDlg::OnEnUpdateEdit(). text = %s\n"), text);
+}
+
+void CTest_CEditDlg::OnEnChangeEdit0()
+{
+	CString text;
+	m_edit_cedit.GetWindowText(text);
+	TRACE(_T("CTest_CEditDlg::OnEnChangeEdit0(). text = %s\n"), text);
 }

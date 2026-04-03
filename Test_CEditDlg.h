@@ -92,4 +92,6 @@ public:
 	CMFCColorButton m_button_back_color;
 	CButton m_check_use_readonly_color;
 	afx_msg void OnBnClickedCheckUseReadOnlyColor();
+	afx_msg void OnEnUpdateEdit();
+	afx_msg void OnEnChangeEdit0();
 };
