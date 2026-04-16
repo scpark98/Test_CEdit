@@ -9,6 +9,7 @@
 #include "Common/CEdit/DimEditCtrl/DimEditCtrl.h"
 #include "Common/CEdit/EditTrans/EditTrans.h"
 #include "Common/CEdit/RichEditCtrlEx/RichEditCtrlEx.h"
+#include "Common/CStatic/SCStatic/SCStatic.h"
 #include "Common/ResizeCtrl.h"
 //#include "Common/CComboBox/FontComboBox/FontComboBox.h"
 
@@ -94,4 +95,5 @@ public:
 	afx_msg void OnBnClickedCheckUseReadOnlyColor();
 	afx_msg void OnEnUpdateEdit();
 	afx_msg void OnEnChangeEdit0();
+	CSCStatic m_static_text;
 };
