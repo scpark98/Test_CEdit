@@ -1,4 +1,4 @@
-
+ï»¿
 // Test_CEdit.cpp : Defines the class behaviors for the application.
 //
 
@@ -39,7 +39,7 @@ CTest_CEditApp theApp;
 
 BOOL CTest_CEditApp::InitInstance()
 {
-	// TODO: richedit2 ¶óÀÌºê·¯¸®¸¦ ÃÊ±âÈ­ÇÏ·Á¸é AfxInitRichEdit2()À»(¸¦) È£ÃâÇÕ´Ï´Ù.\n"	// InitCommonControlsEx() is required on Windows XP if an application
+	// TODO: richedit2 ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì´ˆê¸°í™”í•˜ë ¤ë©´ AfxInitRichEdit2()ì„(ë¥¼) í˜¸ì¶œí•©ë‹ˆë‹¤.\n"	// InitCommonControlsEx() is required on Windows XP if an application
 	AfxInitRichEdit2();
 
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
