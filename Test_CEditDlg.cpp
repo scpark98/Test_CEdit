@@ -277,6 +277,8 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
 
+	SetTimer(timer_auto_add, 500, NULL);
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -333,6 +335,7 @@ HCURSOR CTest_CEditDlg::OnQueryDragIcon()
 
 void CTest_CEditDlg::OnBnClickedOk()
 {
+	/*
 	//readonly일 때 배경색을 별도로 지정하는 테스트 코드
 	m_edit_sc.set_back_color_readonly(gRGB(255, 255, 0));
 	m_edit6.set_back_color_readonly(gRGB(255, 255, 0));
@@ -341,15 +344,15 @@ void CTest_CEditDlg::OnBnClickedOk()
 	//m_edit_trans.EnableWindow(m_edit_trans.IsWindowEnabled() ? false : true);
 
 	return;
-
-	for (int i = 0; i < 1; i++)
+	*/
+	//for (int i = 0; i < 1; i++)
 	{
 		//m_show_time = true일 때의 동작 형태. false일때는 예상대로 출력됨.
 		//m_edit_rich.append(-1, _T("111"));		//첫 컬럼이면 시간찍고 111, 아니면 이어서 111
 		//m_edit_rich.append(-1, _T("\n222"));	//한칸띠고 시간+222
 		//m_edit_rich.append(-1, _T("333\n"));	//첫 컬럼이면 시간찍고 333\n, 아니면 이어서 333찍고 \n
 		//m_edit_rich.append(-1, _T("\n444\n"));	//한칸띠고 시간+444\n
-		m_edit_rich.add(blue, _T("test string\n"));
+		m_edit_rich.add(Gdiplus::Color::RoyalBlue, _T("test string\n"));
 
 		//CString str = _T("CString variable\n");
 		//m_edit_rich.append(red, str);
