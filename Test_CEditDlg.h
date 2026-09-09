@@ -1,4 +1,4 @@
-
+﻿
 // Test_CEditDlg.h : header file
 //
 
@@ -30,6 +30,8 @@ public:
 		timer_auto_add = 0,
 	};
 
+	void			add_demo_data();
+
 protected:
 	CResizeCtrl		m_resize;
 	CToolTipCtrl	m_tooltip;
@@ -53,7 +55,7 @@ public:
 	CSCEdit m_edit_sc;
 	CDimEditCtrl m_edit_dim;
 	CEditTrans m_edit_trans;
-	CRichEditCtrlEx m_edit_rich;
+	CRichEditCtrlEx m_rich;
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedRadioAlignLeft();
 	afx_msg void OnBnClickedRadioAlignCenter();
@@ -96,4 +98,7 @@ public:
 	afx_msg void OnEnUpdateEdit();
 	afx_msg void OnEnChangeEdit0();
 	CSCStatic m_static_text;
+	CButton m_check_demo;
+	afx_msg void OnBnClickedCheckDemo();
+	CStatic m_static_edit;
 };

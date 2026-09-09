@@ -65,7 +65,7 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT1, m_edit_sc);
 	DDX_Control(pDX, IDC_EDIT2, m_edit_dim);
 	DDX_Control(pDX, IDC_EDIT3, m_edit_trans);
-	DDX_Control(pDX, IDC_RICH, m_edit_rich);
+	DDX_Control(pDX, IDC_RICH, m_rich);
 	DDX_Control(pDX, IDC_CHECK_SHOW_SEARCH_BUTTON, m_check_show_search_button);
 	DDX_Control(pDX, IDC_CHECK_ENABLE, m_check_enable);
 	DDX_Control(pDX, IDC_EDIT6, m_edit6);
@@ -84,6 +84,8 @@ void CTest_CEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_BACK_COLOR, m_button_back_color);
 	DDX_Control(pDX, IDC_CHECK_USE_READONLY_COLOR, m_check_use_readonly_color);
 	DDX_Control(pDX, IDC_STATIC_TEXT, m_static_text);
+	DDX_Control(pDX, IDC_CHECK_DEMO, m_check_demo);
+	DDX_Control(pDX, IDC_STATIC_EDIT, m_static_edit);
 }
 
 BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
@@ -113,6 +115,7 @@ BEGIN_MESSAGE_MAP(CTest_CEditDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_USE_READONLY_COLOR, &CTest_CEditDlg::OnBnClickedCheckUseReadOnlyColor)
 	ON_EN_UPDATE(IDC_EDIT1, &CTest_CEditDlg::OnEnUpdateEdit)
 	ON_EN_CHANGE(IDC_EDIT0, &CTest_CEditDlg::OnEnChangeEdit0)
+	ON_BN_CLICKED(IDC_CHECK_DEMO, &CTest_CEditDlg::OnBnClickedCheckDemo)
 END_MESSAGE_MAP()
 
 
@@ -205,7 +208,7 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	//m_edit_sc.SetWindowText(str);
 	//m_edit_dim.SetWindowText(str);
 	m_edit_trans.SetWindowText(str);
-	//m_edit_rich.SetWindowText(str);
+	//m_rich.SetWindowText(str);
 
 	m_edit_dim.SetDimText(_T("input text..."));
 
@@ -277,7 +280,13 @@ BOOL CTest_CEditDlg::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("OK Button"));
 	m_tooltip.Activate(TRUE);
 
-	SetTimer(timer_auto_add, 500, NULL);
+	//20260909 by claude. [태그 렌더링 확인용] addl_tagged 로 태그를 찍는다(색 생략 = set_default_text_color 기본색).
+	//확인이 끝나면 이 블록을 삭제/주석 처리하면 된다.
+	//m_rich.addl_tagged(_T("[tag test] codesign start : LMMAgent.exe (<b><cr=crimson>with Manifest</cr></b>)"));
+	//m_rich.addl_tagged(_T("[tag test] codesign start : AutoPatcher.exe (<b><cr=blue>No Manifest</cr></b>)"));
+	//m_rich.addl_tagged(_T("[tag test] <b>bold</b> <i>italic</i> <u>underline</u> <s>strike</s> plain"));
+	//m_rich.addl_tagged(_T("[tag test] color <cr=red>red</cr> <cr=green>green</cr> <cr=blue>blue</cr> <cr=orange>orange</cr>"));
+	//m_rich.addl_tagged(_T("[tag test] entity: &lt;b&gt; 는 태그가 아니라 글자로 (&amp; 도 &amp;)"));
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -348,32 +357,40 @@ void CTest_CEditDlg::OnBnClickedOk()
 	//for (int i = 0; i < 1; i++)
 	{
 		//m_show_time = true일 때의 동작 형태. false일때는 예상대로 출력됨.
-		//m_edit_rich.append(-1, _T("111"));		//첫 컬럼이면 시간찍고 111, 아니면 이어서 111
-		//m_edit_rich.append(-1, _T("\n222"));	//한칸띠고 시간+222
-		//m_edit_rich.append(-1, _T("333\n"));	//첫 컬럼이면 시간찍고 333\n, 아니면 이어서 333찍고 \n
-		//m_edit_rich.append(-1, _T("\n444\n"));	//한칸띠고 시간+444\n
-		m_edit_rich.add(Gdiplus::Color::RoyalBlue, _T("test string\n"));
+		//m_rich.append(-1, _T("111"));		//첫 컬럼이면 시간찍고 111, 아니면 이어서 111
+		//m_rich.append(-1, _T("\n222"));	//한칸띠고 시간+222
+		//m_rich.append(-1, _T("333\n"));	//첫 컬럼이면 시간찍고 333\n, 아니면 이어서 333찍고 \n
+		//m_rich.append(-1, _T("\n444\n"));	//한칸띠고 시간+444\n
+		m_rich.add(Gdiplus::Color::RoyalBlue, _T("test string\n"));
 
 		//CString str = _T("CString variable\n");
-		//m_edit_rich.append(red, str);
+		//m_rich.append(red, str);
 	}
 }
 
+void CTest_CEditDlg::add_demo_data()
+{
+	m_rich.addl_tagged(_T("[tag test] codesign start : LMMAgent.exe (<b><cr=crimson>with Manifest</cr></b>)"));
+	m_rich.addl_tagged(_T("[tag test] codesign start : AutoPatcher.exe (<b><cr=blue>No Manifest</cr></b>)"));
+	m_rich.addl_tagged(_T("[tag test] <b>bold굵게</b> <i>italic이탈릭</i> <u>underline밑줄</u> <s>strike취소선</s> plain"));
+	m_rich.addl_tagged(_T("[tag test] color <cr=red>red</cr> <cr=green>green</cr> <cr=blue>blue</cr> <cr=orange>orange</cr>"));
+	m_rich.addl_tagged(_T("[tag test] entity: &lt;b&gt; 는 태그가 아니라 글자로 (&amp; 도 &amp;)"));
+}
 
 void CTest_CEditDlg::OnBnClickedRadioAlignLeft()
 {
-	m_edit_rich.set_align(PFA_LEFT);
+	m_rich.set_align(PFA_LEFT);
 }
 
 void CTest_CEditDlg::OnBnClickedRadioAlignCenter()
 {
-	m_edit_rich.set_align(PFA_CENTER);
+	m_rich.set_align(PFA_CENTER);
 }
 
 
 void CTest_CEditDlg::OnBnClickedRadioAlighRight()
 {
-	m_edit_rich.set_align(PFA_RIGHT);
+	m_rich.set_align(PFA_RIGHT);
 }
 
 
@@ -390,7 +407,7 @@ void CTest_CEditDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (nIDEvent == timer_auto_add)
-		OnBnClickedOk();
+		add_demo_data();
 
 	CDialogEx::OnTimer(nIDEvent);
 }
@@ -561,4 +578,12 @@ void CTest_CEditDlg::OnEnChangeEdit0()
 	m_edit_cedit.GetWindowText(text);
 	//TRACE(_T("CTest_CEditDlg::OnEnChangeEdit0(). text = %s\n"), text);
 	m_static_text.set_text(text);
+}
+
+void CTest_CEditDlg::OnBnClickedCheckDemo()
+{
+	if (m_check_demo.GetCheck() == BST_CHECKED)
+		SetTimer(timer_auto_add, 100, NULL);
+	else
+		KillTimer(timer_auto_add);
 }
